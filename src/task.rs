@@ -5,7 +5,7 @@ pub(crate) struct Task {
     pub description: String,
     pub due_date: String,
     pub category: String,
-    pub completed: bool,
+    pub completed: String,
 }
 
 impl Task {
@@ -25,7 +25,7 @@ impl Task {
     }
 
     // create task from string
-    fn from_string(task_string: &str) -> Result<Self, String>{
+    fn from_string(task_string: &str) -> Result<Task, String>{
         let fields: Vec<&str> = task_string.lines().collect(); 
         if fields.len() != 5 {
             return Err("Invalid task string".to_string())

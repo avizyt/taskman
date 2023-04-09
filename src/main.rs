@@ -78,6 +78,58 @@ fn list_tasks(task_list: &mut Vec<Task>) {
         println!();
     }
 }
+
+fn complete_task(task_list: &mut Vec<Task>) {
+    println!("Mark a task as completed:")
+
+    // Take user input for the index of the task to mark as completed
+    println!("Enter the index of the task to mark as completed:");
+    let mut index = String::new();
+    io::stdin()
+        .read_line(&mut index)
+        .expect("Failed to read index");
+    let index = index.trim().parse().expect("Invalid index");
+
+    // Check if the index is within the valid range
+    if index < 1 || index > task_list.len() {
+        println!("Invalid index. Please enter a valid index.");
+        return;
+    }
+
+    // Mark the task as completed
+    task_list[index - 1].completed = true;
+
+    println!("Task marked as completed successfully!");
+}
+
+fn delete_task(task_list: &mut Vec<Task>) {
+    println!("Delete a task:");
+
+    // Take user input for the index of the task to delete
+    println!("Enter the index of the task to delete:");
+    let mut index = String::new();
+    io::stdin()
+        .read_line(&mut index)
+        .expect("Failed to read index");
+    let index = index.trim().parse().expect("Invalid index");
+
+    // Check if the index is within the valid range
+    if index < 1 || index > task_list.len() {
+        println!("Invalid index. Please enter a valid index.");
+        return;
+    }
+
+    // Remove the task from the task list
+    task_list.remove(index - 1);
+
+    println!("Task deleted successfully!");
+}
+
+fn exit_task_manager() {
+    println!("Exiting the Task Manager. Goodbye!");
+    std::process::exit(0); // Exit the program with a status code of 0
+}
+
 fn main() {
     print!("Taskman - A new rust based cli task manager.");
 
@@ -85,5 +137,15 @@ fn main() {
 
     add_task(&mut task_list);
 
-    list_tasks(&mut task_list)
+    list_tasks(&mut task_list);
+
+    // Call the complete_task function to mark a task as completed
+    complete_task(&mut task_list);
+
+
+    // Call the delete_task function to delete a task
+    delete_task(&mut task_list);
+
+    // Call the exit_task_manager function to exit the task manager
+    exit_task_manager();
 }
