@@ -1,44 +1,89 @@
-#[derive(Debug)]
+mod task;
 
-struct Task {
-    task_num: i32,
-    title: String,
-    description: String,
-    due_date: String,
-    category: string,
-    completed: bool,
+use std::io;
+use task::Task;
+
+
+fn add_task(task_list: &mut Vec<Task>){
+    println!("ADd a new task");
+
+    // User task input
+    println!("Title:");
+    let mut title = String::new();
+    io::stdin()
+        .read_line(&mut title)
+        .expect("Failed to read title");
+
+    title = title.trim().to_string();
+
+    // description input
+    println!("Description:");
+    let mut description = String::new();
+    io::stdin()
+        .read_line(&mut description)
+        .expect("Failed to read description");
+
+    description = description.trim().to_string();
+
+    // Deu date input
+    println!("Due Date:");
+    let mut due_date = String::new();
+    io::stdin()
+        .read_line(&mut due_date)
+        .expect("Failed to read due date");
+
+    due_date = due_date.trim().to_string();
+
+    // Category input
+    println!("Category:");
+    let mut category = String::new();
+    io::stdin()
+        .read_line(&mut category)
+        .expect("Failed to read category");
+
+    category = category.trim().to_string();
+
+    // Completed
+    println!("Completed (true/false):");
+    let mut completed = String::new();
+    io::stdin()
+        .read_line(&mut completed)
+        .expect("Failed to read completed status");
+
+    completed= completed.trim().parse().expect("Invalid completion status.");
+
+
+    // create a new task
+    let task = Task {
+        title,
+        description,
+        due_date,
+        category,
+        completed,
+    };
+    task_list.push(task);
+    println!("Task added successfully!")
 }
 
-impl Task {
-    // Task format
-    fn to_string(&self) -> String {
-        format!(
-        "Number: {}\nTitle: {}
-            \nDescription: {}\nDue Date: {}
-            \nCategory: {}\nCompleted: {}",
-            self.task_num,
-            self.title,
-            self.description,
-            self.due_date,
-            self.category,
-            self.completed
-    )
-    }
+fn list_tasks(task_list: &mut Vec<Task>) {
+    println!("All Tasks:");
 
-    // create task from string
-    fn from_string(task_string: &str) -> Result<Self, String>{
-        let fields: Vec<str> = task_string.lines().collect(); 
-        if fields.len() != 6 {
-            return Err("Invalid task string".to_string())
-        }
-
-        Ok(Task {
-            task_num: fields[0].to_string(),
-            title: fields[1].to_string(),
-            description: fields[2].to_string(),
-            due_date: fields[3].to_string(),
-            category: fields[4].to_string(),
-            completed: fields[5].parse().map_err(|_| "Invalid task string")?,
-        })
+    for (index, task) in task_list.iter().enumerate() {
+        println!("Task {}: ", index + 1);
+        println!("Title: {}", task.title);
+        println!("Description: {}", task.description);
+        println!("Due Date: {}", task.due_date);
+        println!("Category: {}", task.category);
+        println!("Completed: {}", task.completed);
+        println!();
     }
+}
+fn main() {
+    print!("Taskman - A new rust based cli task manager.");
+
+    let mut task_list: Vec<Task> = Vec::new();
+
+    add_task(&mut task_list);
+
+    list_tasks(&mut task_list)
 }
