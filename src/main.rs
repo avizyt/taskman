@@ -5,7 +5,7 @@ use task::Task;
 
 
 fn add_task(task_list: &mut Vec<Task>){
-    println!("ADd a new task");
+    println!("Add a new task");
 
     // User task input
     println!("Title:");
@@ -44,13 +44,13 @@ fn add_task(task_list: &mut Vec<Task>){
     category = category.trim().to_string();
 
     // Completed
-    println!("Completed (true/false):");
-    let mut completed = String::new();
-    io::stdin()
-        .read_line(&mut completed)
-        .expect("Failed to read completed status");
+    // println!("Completed (Yes/No):");
+    // let mut completed =  String::new();
+    // io::stdin()
+    //     .read_line(&mut completed)
+    //     .expect("Failed to read completed status");
 
-    completed= completed.trim().parse().expect("Invalid completion status.");
+    // completed = completed.trim().parse().expect("Invalid completion status.");
 
 
     // create a new task
@@ -59,8 +59,9 @@ fn add_task(task_list: &mut Vec<Task>){
         description,
         due_date,
         category,
-        completed,
+        completed: false,
     };
+
     task_list.push(task);
     println!("Task added successfully!")
 }
@@ -80,7 +81,7 @@ fn list_tasks(task_list: &mut Vec<Task>) {
 }
 
 fn complete_task(task_list: &mut Vec<Task>) {
-    println!("Mark a task as completed:")
+    println!("Mark a task as completed:");
 
     // Take user input for the index of the task to mark as completed
     println!("Enter the index of the task to mark as completed:");
@@ -88,7 +89,7 @@ fn complete_task(task_list: &mut Vec<Task>) {
     io::stdin()
         .read_line(&mut index)
         .expect("Failed to read index");
-    let index = index.trim().parse().expect("Invalid index");
+    let index: usize = index.trim().parse().expect("Invalid index");
 
     // Check if the index is within the valid range
     if index < 1 || index > task_list.len() {
@@ -111,7 +112,7 @@ fn delete_task(task_list: &mut Vec<Task>) {
     io::stdin()
         .read_line(&mut index)
         .expect("Failed to read index");
-    let index = index.trim().parse().expect("Invalid index");
+    let index: usize = index.trim().parse().expect("Invalid index");
 
     // Check if the index is within the valid range
     if index < 1 || index > task_list.len() {
@@ -129,6 +130,7 @@ fn exit_task_manager() {
     println!("Exiting the Task Manager. Goodbye!");
     std::process::exit(0); // Exit the program with a status code of 0
 }
+
 
 fn main() {
     print!("Taskman - A new rust based cli task manager.");
